@@ -13,22 +13,39 @@ function playSound(source, time) {
 
 const play2filesElem = document.getElementById('play2files')
 play2filesElem.addEventListener('click',function() {play2() })
+let play = 0
+let started = false
 
-function play2() {
-  var startTime = AC.currentTime + 0.5;
-  var tempo = 80; // BPM (beats per minute)
-  var eighthNoteTime = 60 / tempo / 2;
+async function play2() {
 
-  //this was the wrong direction, we needed the binary arraybuffer
-  //const src1 = AC.createMediaElementSource(audioElems[0])
-  //const src2 = AC.createMediaElementSource(audioElems[1])
+  if ( play === 1 ) {
+    play = 0
+    await AC.suspend()
+    return
+  }
 
-  const src1 = sources[0]
-  const src2 = sources[1]
+  AC.resume()  //this controls them all at once
 
-  //console.log(src1)
-  playSound(src1, startTime + 0.25);
-  playSound(src2, startTime);
+  play = 1
+
+  if ( !started ) {
+
+    const startTime = AC.currentTime + 0.5;
+    const tempo = 80; // BPM (beats per minute)
+    const eighthNoteTime = 60 / tempo / 2;
+  
+    //this was the wrong direction, we needed the binary arraybuffer
+    //const src1 = AC.createMediaElementSource(audioElems[0])
+    //const src2 = AC.createMediaElementSource(audioElems[1])
+  
+    const src1 = sources[0]
+    const src2 = sources[1]
+
+    playSound(src1, startTime + 0.25);
+    playSound(src2, startTime);
+    started = true
+  }
+  
 };
 
 console.log('trying to get 2 audio files')
