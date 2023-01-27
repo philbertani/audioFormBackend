@@ -1,8 +1,14 @@
 import axios from "axios"
+import { initDictaphone } from "./dictaphone";
 
 //browser always complains unless we first create the AC after a button click 
 //webkit is the mac/safari/ios version of this stuff
 const AC = new (window.AudioContext || window.webkitAudioContext)();
+
+window.AC = AC
+
+initDictaphone()
+
 let fudge = 0  //in seconds
 let timeOffset = .05
 let currentPlayPosition = 0

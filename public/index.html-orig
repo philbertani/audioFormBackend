@@ -23,27 +23,5 @@
     </div>
     <br></br>
     <input id="fudge" type="text" value="0">Enter Fudge and Restart</input>
-
-    <br></br>
-    <br></br>
-    
-    <div class="wrapper">
-
-      <h2>Play and Record Audio Down</h2>
-      <section class="main-controls">
-        <canvas class="visualizer" height="5px"></canvas>
-        <div id="buttons">
-          <button class="record">Record</button>
-          <button class="stop">Stop</button>
-        </div>
-      </section>
-
-      <section class="sound-clips">
-
-      </section>
-
-    </div>
-
-
   </body>
 </html>
