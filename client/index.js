@@ -80,8 +80,12 @@ async function getFiles(filename, audioId) {
 
 }
 
-getFiles('a1.mp3',1)
-getFiles('a2.mp3',2)
+Promise.all([getFiles('a1.mp3',1), getFiles('a2.mp3',2)])
+  .then( values=>{
+      console.log('done')
+      play2filesElem.disabled = false
+
+})
 
 
 
