@@ -159,5 +159,3 @@ Promise.all([getFiles('a1.mp3',1), getFiles('a2.mp3',2)])
 
 })
 
-
-

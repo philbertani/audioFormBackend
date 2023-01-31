@@ -1,4 +1,6 @@
 // set up basic variables for app
+import axios from "axios"
+import getBlobDuration from 'get-blob-duration'
 
 export function initDictaphone() {
 
@@ -57,7 +59,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
       console.log("data available after MediaRecorder.stop() called.");
 
-      const clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
+      const clipName = prompt('Enter a name for your sound clip?','xxx');
 
       const clipContainer = document.createElement('article');
       const clipLabel = document.createElement('p');
@@ -70,7 +72,7 @@ if (navigator.mediaDevices.getUserMedia) {
       deleteButton.className = 'delete';
 
       if(clipName === null) {
-        clipLabel.textContent = 'My unnamed clip';
+        clipLabel.textContent = 'audioSample';
       } else {
         clipLabel.textContent = clipName;
       }
@@ -100,6 +102,9 @@ if (navigator.mediaDevices.getUserMedia) {
           clipLabel.textContent = newClipName;
         }
       }
+
+      console.log('sending to backend')
+      sendToBackend(blob,clipLabel.textContent)
     }
 
     mediaRecorder.ondataavailable = function(e) {
@@ -117,6 +122,24 @@ if (navigator.mediaDevices.getUserMedia) {
    console.log('getUserMedia not supported on your browser!');
 }
 
+async function sendToBackend(blob,name) {
+
+    console.log('sending file to backend')
+    const data = new FormData();
+    data.append("audiofile", blob);
+
+    console.log('zzzz',blob)
+
+    const duration = await getBlobDuration(blob)
+    console.log("blob duration", duration + ' seconds')
+
+    const response = await axios.post("/audio/"+name, data, {
+/*         headers: {
+          "Content-Type": "multipart/form-data" //; boundary=${data._boundary}`,
+        }, */
+    });  
+}
+
 window.onresize = function() {
   canvas.width = mainSection.offsetWidth;
 }
@@ -124,3 +147,4 @@ window.onresize = function() {
 window.onresize();
 
 }
+

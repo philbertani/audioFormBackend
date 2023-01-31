@@ -2,6 +2,9 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const fs = require('fs')
+const multer  = require('multer');
+const upload = multer();
+const atob = require('atob')
 
 const app = express()
 module.exports = app
@@ -36,6 +39,25 @@ app.get('/audio/:id',(req,res,next)=>{
       res.status(200).send(data)
     }
   })
+
+})
+
+app.post('/audio/:id',  upload.single('audiofile'), (req,res,next)=>{
+
+  console.log(req.file)
+
+  const binary = atob(req.file.buffer)
+
+  const fileName = req.params.id + '.ogg'
+  fs.open(fileName,'w+', (err,fd)=>{
+    fs.writeFile(fd,req.file.buffer,(err)=>{
+      fs.close(fd, (err)=>{
+        res.status(201).send('audioText.mp3')
+      })
+    })
+  })
+
+  //res.status(200).send('duh')
 
 })
 
